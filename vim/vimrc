@@ -27,6 +27,9 @@ nnoremap <C-n> :NERDTreeToggle<CR>  " Key to open NERDTree in commands mode
 " clear highlighted search term, but keep in register
 nnoremap <silent><CR> :noh<CR>
 
+" In visual mode, paste text without overwriting the clipboard buffer
+vnoremap p "0p
+
 " Don't count acronyms / abbreviations as spelling errors
  " (all upper-case letters, at least three characters)
  " Also will not count acronym with 's' at the end a spelling error
@@ -52,6 +55,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'  " Shows git diff in file gutter
 Plug 'Xuyuanp/nerdtree-git-plugin'  " Shows Git status flags for files and folders in NERDTree
 Plug 'preservim/nerdtree'  " Add file tree
+Plug 'tpope/vim-fugitive'
+set diffopt+=vertical
 
 "---------------------------------
 
@@ -62,6 +67,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'ap/vim-css-color'  " Show rgba colours in css files etc
 Plug 'patstockwell/vim-monokai-tasty'  " Add the molokai colour scheme
+Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-commentary'  " Shortcuts for commenting out code
 Plug 'tpope/vim-haml'  " Haml, Sass, and SCSS niceties
 Plug 'tpope/vim-liquid'  " Liquid niceties
@@ -87,6 +93,8 @@ let g:pandoc#modules#disabled = ["folding", "spell"]
 "let g:pandoc#folding#level=3
 "autocmd FileType pandoc setlocal nospell
 
+nnoremap <C-_> :Commentary<CR>
+xmap <C-_> :Commentary<CR>
 
 "########################################
 "########## coc.vim setup ###############

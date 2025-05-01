@@ -2,7 +2,7 @@
 # ~/.bashrc
 #
 
-# Included my Manjoro. Early returns if shell not running interactively
+# Included by Manjaro. Early returns if shell not running interactively
 [[ $- != *i* ]] && return
 
 # Set default editor (for ranger to pickup)
@@ -19,18 +19,7 @@ alias gl="git log"
 alias gc="git commit"
 alias gshow="PAGER='vim -' git -c color.ui=false show"
 
-# Add auto-complete for the aws cli
-aws_auto_complete=/bin/aws_completer
-if [ -f "$aws_auto_complete" ]
-then
-    complete -C "$aws_auto_complete" aws
-else
-    echo "$aws_auto_complete does not exist. Install the aws cli"
-fi
-
-
-grepr ()
-{
+grepr () {
 	if [[ $# -ne 1 ]]; then
 			echo "Illegal number of arguments" >&2
 			exit 2
@@ -38,6 +27,9 @@ grepr ()
 	grep -r "$1" . --color=auto
 }
 
+csvtable() {
+    column -s, -t "$1" | less -#2 -N -S
+}
 
 ################################
 #### Majoro Default Commands ###
@@ -187,10 +179,26 @@ export PATH="$PATH:$HOME/.scripts"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-# Required by Miniconda
-[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
-
 # Required by Tilix to prevent bash warning
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 	source /etc/profile.d/vte.sh
 fi
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/thomasc/.miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/thomasc/.miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/thomasc/.miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/thomasc/.miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# activate conda auto for the duration of my thesis
+conda activate thesis
+
